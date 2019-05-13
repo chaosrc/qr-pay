@@ -76,6 +76,7 @@ export const DeviceSelect = (props) => {
     useEffect(() => {
         navigator.mediaDevices.enumerateDevices()
             .then(function (devices) {
+                setDevice(devices)
                 devices.forEach(function (device) {
                     console.log(device.kind + ": " + device.label +
                         " id = " + device.deviceId);

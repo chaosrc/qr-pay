@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import { Scanner, DeviceSelect } from './Scanner';
+import { Scanner } from './Scanner';
 
 function App() {
   let [status, setStatus] = useState('close')
@@ -15,7 +15,6 @@ function App() {
   }
   return (
     <div className="App">
-    <DeviceSelect onChange={val => setId(val)}/>
       {status === 'open' ? <Scanner id={id} onSuccess={handleSuccess}></Scanner> : ''}
       {code.data}<br/>
       <button onClick={() => setStatus('open')}>扫描</button>
