@@ -1,0 +1,7 @@
+.canvas-wrapper {
+    max-width: 80vw;
+    margin: 50px auto;
+}
+.canvas {
+    width: 100%;
+}
