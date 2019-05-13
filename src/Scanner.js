@@ -1,17 +1,19 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './Scanner.css'
 import QR from 'jsqr'
+
 
 export const Scanner = (props) => {
     let canvasRef = useRef()
     let onSuccess = props.onSuccess
+
     useEffect(() => {
         const video = document.createElement('video')
         let id = ''
         let mediaStream
         navigator
             .mediaDevices
-            .getUserMedia({ video: true, audio: false })
+            .getUserMedia({ video: { facingMode: { exact: "environment" } }, audio: false })
             .then(stream => {
                 mediaStream = stream
                 video.srcObject = stream
@@ -58,9 +60,35 @@ export const Scanner = (props) => {
             }
         }
     }, [onSuccess])
+
+
+
+
     return (
         <div className="canvas-wrapper">
             <canvas ref={canvasRef} className="canvas"></canvas>
         </div>
     )
+}
+
+export const DeviceSelect = (props) => {
+    let [deviceList = [], setDevice] = useState([])
+    useEffect(() => {
+        navigator.mediaDevices.enumerateDevices()
+            .then(function (devices) {
+                devices.forEach(function (device) {
+                    console.log(device.kind + ": " + device.label +
+                        " id = " + device.deviceId);
+                    setDevice(device)
+                });
+            })
+            .catch(function (err) {
+                console.log(err.name + ": " + err.message);
+            });
+    }, [])
+    return (<select onChange={(val) => props.onChange && props.onChange(val)}>
+        {deviceList.map(d => {
+            return <option value={d.id}>{d.label}</option>
+        })}
+    </select>)
 }
